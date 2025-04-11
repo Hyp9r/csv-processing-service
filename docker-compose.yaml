@@ -1,0 +1,25 @@
+services:
+  backend:
+    container_name: backend
+    build:
+      context: .
+      dockerfile: ./.docker/services/backend/Dockerfile
+    depends_on:
+      - postgres
+    env_file:
+      - ./.env
+    volumes:
+      - ./:/app
+    restart: always
+    ports:
+      - "8081:8081"
+  postgres:
+    build:
+      context: .
+      dockerfile: .docker/services/postgres/Dockerfile
+    env_file:
+      - ./.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
